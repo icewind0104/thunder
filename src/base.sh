@@ -2,11 +2,12 @@
 set -e
 
 {% include 'config' %}
-export ENV_HOST_IP=`ip addr | grep inet | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/16' | awk '{print $2}' | cut -d '/' -f 1`
 
 {% block coin %}{% endblock %}
 
 function env() {
+	local IP=`__get_self_ip`
+
 	# ssh
 	sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' -i /etc/ssh/sshd_config
 	sed 's/#StrictModes yes/StrictModes yes/g' -i /etc/ssh/sshd_config
@@ -168,6 +169,17 @@ function __save_nfs_config() {
 		rm -f /etc/init.d/nfs.sh
 	fi
 	umount /mnt
+}
+
+function __get_self_ip () {
+	local IP=`ip addr | grep -E '^    inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d '/' -f 1`
+	
+	if [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]];then
+		echo $IP
+	else
+		echo "Failed to get local IP address" >&2
+		exit 1
+	fi
 }
 
 case $1 in
