@@ -44,7 +44,7 @@ function disk() {
 
 	[ "$1" == "force" ] && local FORCE=true
 
-	echo -n "" > /etc/init.d/mount.sh
+	echo "#!/bin/bash" > /etc/init.d/mount.sh
 	chmod +x /etc/init.d/mount.sh
 
 	for DEVICE in `fdisk -l | grep Disk | grep /dev/ | awk '{print $2}' | cut -d ":" -f 1`;do
@@ -113,7 +113,6 @@ function disk() {
 cat > /etc/systemd/system/mount.service <<eof
 [Unit]
 Description=Auto mount after reboot
-After=network.target
 
 [Service]
 ExecStart=/etc/init.d/mount.sh
@@ -160,6 +159,7 @@ function __nfs_mount() {
 
 function __save_nfs_config() {
 	local NFS_IP
+	local IP=`__get_self_ip`
 
 	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
 	NFS_IP=`cat /mnt/mount | grep $IP | awk '{print $3}'`
