@@ -182,7 +182,7 @@ case $1 in
 	disk)
 		disk $2;;
 	deploy)
-		deploy $REPO;;
+		deploy;;
 	env)
 		env;;
 	health)
