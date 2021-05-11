@@ -16,7 +16,7 @@ function env() {
 	systemctl restart ssh
 
 	# hostname
-	HOSTNAME=$LOCATION-`echo $IP | cut -d '.' -f 3``echo $IP | cut -d '.' -f 4`
+	HOSTNAME=$ENV_TITLE-`echo $IP | cut -d '.' -f 3``echo $IP | cut -d '.' -f 4`
 	hostnamectl set-hostname $HOSTNAME
 
 	# nfs
