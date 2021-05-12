@@ -5,6 +5,8 @@
 function start() {
 	source /root/.env
 
+	[ ! -d "$ENV_LOG_PATH" ] && mkdir $ENV_LOG_PATH
+
     # C2
 	if [ "$1" == "c" ];then
 		APP_PATH=/root/dark/latest

@@ -6,11 +6,11 @@ function start() {
 	source /root/.env
 
 	if [ -z "$WORKER_PORT" ];then
-		echo "error: Worker port number is not defined."
-		exit
+		echo "Worker port number is not defined." >&2
+		exit 1
 	fi
 
-	[ ! -d "/root/logs" ] && mkdir /root/logs
+	[ ! -d "$ENV_LOG_PATH" ] && mkdir $ENV_LOG_PATH
 
 	APP=/root/dark/latest/lotus-worker
 	COUNT=11
