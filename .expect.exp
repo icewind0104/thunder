@@ -1,0 +1,47 @@
+#!/usr/bin/expect
+
+set timeout 10
+set IP [lindex $argv 0]
+set PASSWD moji#1234.
+set USER mj
+set MANAGER 10.2.0.102
+set MANAGER_PASS DARK#1234.
+
+spawn ssh $USER@$IP
+	expect {
+		"yes/no" { send "yes\n"; exp_continue }
+		"$USER@$IP's password:" { sleep 0 ; send "$PASSWD\n" }
+	}
+
+	expect {
+		"$USER@" { sleep 0; send "sudo su\n" }
+	}
+
+	expect {
+		"password for $USER:" { sleep 0 ; send "$PASSWD\n" }
+	}
+
+	expect {
+		"root@" { sleep 0; send "cd /root/; scp $MANAGER:/tmp/.service.sh ./\n" }
+		#"root@" { sleep 1; send "cd /root/; scp $MANAGER:~/.setup.sh ./\n" }
+	}
+
+	expect {
+		"yes/no" { send "yes\n"; exp_continue }
+		"$MANAGER's password" { sleep 0 ; send "$MANAGER_PASS\n" }
+	}
+
+	expect {
+		"root@" { sleep 0; send "\[ ! -d /root/.ssh \] && mkdir /root/.ssh ; scp $MANAGER:/root/.ssh/authorized_keys /root/.ssh/\n" }
+	}
+
+	expect {
+		"yes/no" { send "yes\n"; exp_continue }
+		"$MANAGER's password" { sleep 0 ; send "$MANAGER_PASS\n" }
+	}
+
+	expect {
+		"root@" { sleep 0; send "fdisk -l | grep 'Disk /dev/' | grep -v loop | awk '{print \$2 \"--------\" \$3\$4}'; free -g\n" }
+		#"root@" { sleep 1; send "bash mount; /etc/init.d/nfs-kernel-server restart; nohup bash .setup.sh start 2>&1 &\n" }
+	}
+interact
