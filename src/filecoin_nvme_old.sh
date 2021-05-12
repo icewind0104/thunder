@@ -99,10 +99,15 @@ function init(){
 	cp /mnt/env/$MINER/.env /root/
 	umount /mnt
 
+	# umount nfs
+	for each in `df -T | grep nfs4 | grep -E '/nfs/[0-9]{4}' | awk '{print $NF}'`;do
+		umount $each
+	done
+
 	# mount nfs
 	NFS_IP=`cat /etc/init.d/nfs.sh`
 	NFS="`echo $NFS_IP | cut -d '.' -f 3``echo $NFS_IP | cut -d '.' -f 4`"
-	__mount_nfs $NFS_IP:/data /nfs/$NFS
+	__nfs_mount $NFS_IP:/data /nfs/$NFS
 
 	if [ "$NFS" == "2121" ];then
 		WORKER_CEPH_PATH="/nfs/$NFS/storage-f0135551"

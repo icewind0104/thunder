@@ -99,6 +99,11 @@ function init(){
 	cp /mnt/env/$MINER/.env /root/
 	umount /mnt
 
+	# umount nfs
+	for each in `df -T | grep nfs4 | grep -E '/nfs/[0-9]{4}' | awk '{print $NF}'`;do
+		umount $each
+	done
+
 	# mount nfs
 	NFS_IP=`cat /etc/init.d/nfs.sh`
 	NFS="`echo $NFS_IP | cut -d '.' -f 3``echo $NFS_IP | cut -d '.' -f 4`"
