@@ -29,9 +29,6 @@ function env() {
 	rm /etc/localtime
 	ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 	apt install ntp -y
-
-	# sync
-	sync
 }
 
 
