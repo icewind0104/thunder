@@ -136,6 +136,7 @@ function __nfs_mount() {
 	local TYPE=`echo $OUTPUT|awk '{print $2}'`
 	local MOUNTED=`echo $OUTPUT|awk '{print $7}'`
 	
+	[ ! -d "$MOUNT_POINT" ] && mkdir $MOUNT_POINT
 	if [ "$MOUNTED" == "$MOUNT_POINT" ];then
 		if [ "$TYPE" == "nfs4" ];then
 			if [ ! "$FILESYSTEM" == "$MOUNT_FS" ];then
