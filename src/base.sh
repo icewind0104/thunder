@@ -150,8 +150,7 @@ function __nfs_mount() {
 	fi
 	
 	# volume checking
-	local OUTPUT=`df -T -B1T /hdd|tail -n 1`
-	local VOLUME=`echo $OUTPUT|awk '{print $3}'`
+	local VOLUME=`df -T -B1T $MOUNT_POINT|tail -n 1|awk '{print $3}'`
 	
 	if [ ! "$VOLUME" -gt "1" ];then
 		echo "There is not enough space in $MOUNT_POINT" >&2
