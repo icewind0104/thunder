@@ -205,6 +205,8 @@ case $1 in
 		else
 			env; disk; deploy; init;;
 		fi
+	exec)
+		shift; exec $@;;
 	*)
 		show;;
 esac
