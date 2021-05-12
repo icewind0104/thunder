@@ -4,6 +4,7 @@
 # start service
 function start() {
 	source /root/.env
+	local IP=`__get_self_ip`
 
 	[ ! -d "$ENV_LOG_PATH" ] && mkdir $ENV_LOG_PATH
 

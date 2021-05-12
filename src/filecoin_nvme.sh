@@ -4,6 +4,7 @@
 # start service
 function start() {
 	source /root/.env
+	local IP=`__get_self_ip`
 
 	if [ -z "$WORKER_PORT" ];then
 		echo "Worker port number is not defined." >&2
