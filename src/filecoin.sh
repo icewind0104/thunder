@@ -36,15 +36,5 @@ function deploy() {
 	[ ! -d "/root/yungo" ] && cp -r /mnt/yungo /root/
 	cp /mnt/.bashrc /root/
 	umount /mnt
-
-	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
-	if [ "`cat /mnt/mount | grep $IP | wc -l`" == "1" ];then
-		MINER=`cat /mnt/mount | grep $IP | awk '{print $2}'`
-		cp /mnt/env/$MINER/.env /root/
-	else
-		echo "没有找到匹配的初始化信息"
-		exit 0
-	fi
-	umount /mnt
 }
 {% endblock %}
