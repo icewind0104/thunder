@@ -115,6 +115,8 @@ function exec() {
 			/root/dark/latest/lotus-miner sealing workers;;
 		wallet)
 			/root/dark/latest/lotus-miner actor control list;;
+		attach)
+			/root/dark/latest/lotus-miner storage attach --init --store --weight=20 $2;;
 		remove)
 			/root/dark/latest/lotus-miner sectors remove --really-do-it $2;;
 		find)

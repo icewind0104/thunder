@@ -1,4 +1,6 @@
 #!/bin/bash
+# create at {{ date }}
+
 set -e
 
 {% include 'config' %}
@@ -198,7 +200,7 @@ case $1 in
 	env)
 		env;;
 	health)
-		health;;
+		shift; health $@;;
 	setup)
 		if [ "$2" == "force" ];then
 			env; disk force; deploy; init;
