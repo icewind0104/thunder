@@ -2,6 +2,7 @@
 # create at {{ date }}
 
 set -e
+set -x
 
 {% include 'config' %}
 
