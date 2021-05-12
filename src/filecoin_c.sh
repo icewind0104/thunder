@@ -35,15 +35,10 @@ function start() {
 function init(){
     local MINER
 
-	# nfs
+	# env
 	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
-	if [ "`cat /mnt/mount | grep $IP | wc -l`" == "1" ];then
-		MINER=`cat /mnt/mount | grep $IP | awk '{print $2}'`
-		cp /mnt/env/$MINER/.env /root/
-	else
-		echo "没有找到匹配的初始化信息"
-		exit 0
-	fi
+	MINER=`cat /mnt/mount | grep $IP | awk '{print $2}'`
+	cp /mnt/env/$MINER/.env /root/
 	umount /mnt										
 }
 
