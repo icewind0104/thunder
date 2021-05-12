@@ -188,7 +188,7 @@ case $1 in
 	clear)
 		clear;;
 	stop)
-		shift; stop;;
+		shift; stop $@;;
 	init)
 		init;;
 	disk)
@@ -200,7 +200,11 @@ case $1 in
 	health)
 		health;;
 	setup)
-		env; disk; deploy; init;;
+		if [ "$2" == "force" ];then
+			env; disk force; deploy; init;;
+		else
+			env; disk; deploy; init;;
+		fi
 	*)
 		show;;
 esac

@@ -52,11 +52,6 @@ function init() {
 	__save_nfs_config
 }
 
-# get new scripts
-function sync() {
-	echo "No sync method."
-}
-
 # setup system enviroment
 function deploy() {
 	cd /root/
