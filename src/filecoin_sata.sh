@@ -76,9 +76,10 @@ function clear() {
 
 function init(){
 	local MINER
-    local NFS
-    local NFS_IP
-    local WORKER_CEPH_PATH
+	local NFS
+	local NFS_IP
+	local WORKER_CEPH_PATH
+	local IP=`__get_self_ip`
 
 	__save_nfs_config
 

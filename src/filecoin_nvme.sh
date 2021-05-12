@@ -85,10 +85,11 @@ function clear() {
 }
 
 function init(){
-    local MINER
-    local NFS
-    local NFS_IP
-    local WORKER_CEPH_PATH
+	local MINER
+	local NFS
+	local NFS_IP
+	local WORKER_CEPH_PATH
+	local IP=`__get_self_ip`
 
 	__save_nfs_config
 
@@ -101,7 +102,7 @@ function init(){
 	# mount nfs
 	NFS_IP=`cat /etc/init.d/nfs.sh`
 	NFS="`echo $NFS_IP | cut -d '.' -f 3``echo $NFS_IP | cut -d '.' -f 4`"
-	__mount_nfs $NFS_IP:/hdd /nfs/$NFS
+	__nfs_mount $NFS_IP:/hdd /nfs/$NFS
 
 	if [ "$NFS" == "2121" ];then
 		WORKER_CEPH_PATH="/nfs/$NFS/storage-f0135551"

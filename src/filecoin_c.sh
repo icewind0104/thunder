@@ -33,7 +33,8 @@ function start() {
 }
 
 function init(){
-    local MINER
+	local MINER
+	local IP=`__get_self_ip`
 
 	# env
 	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
