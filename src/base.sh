@@ -201,10 +201,11 @@ case $1 in
 		health;;
 	setup)
 		if [ "$2" == "force" ];then
-			env; disk force; deploy; init;;
+			env; disk force; deploy; init;
 		else
-			env; disk; deploy; init;;
+			env; disk; deploy; init;
 		fi
+		;;
 	exec)
 		shift; exec $@;;
 	*)

@@ -71,7 +71,7 @@ function __task_check(){
 
 function __summary() {
 	local JOBS=`/root/dark/latest/lotus-miner sealing jobs`
-	local HOSTS=`echo $JOBS|tail -n +2 | awk '{print $4}' | cut -d ':' -f 1 | sort -u`
+	local HOSTS=`echo -e "$JOBS"|tail -n +2 | awk '{print $4}' | cut -d ':' -f 1 | sort -u`
 
 	local SUM_PC1=0
 	local SUM_PC1_AS=0

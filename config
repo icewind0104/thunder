@@ -1,3 +1,3 @@
-export ENV_TITLE=yali
-export ENV_REPO_IP=10.0.1.175
+export ENV_TITLE=dark
+export ENV_REPO_IP=10.10.0.101
 export ENV_LOG_PATH=/var/tmp/log
