@@ -17,6 +17,7 @@ function stop() {
 # deploy
 function deploy() {
     local MINER
+	local IP=`__get_self_ip`
 
 	apt update
 	apt install tree mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev -y && sudo apt upgrade -y
@@ -35,6 +36,12 @@ function deploy() {
 	[ ! -d "/root/dark" ] && cp -r /mnt/dark /root/
 	[ ! -d "/root/yungo" ] && cp -r /mnt/yungo /root/
 	cp /mnt/.bashrc /root/
+	umount /mnt
+	
+	# env
+	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
+	MINER=`cat /mnt/mount | grep $IP | awk '{print $2}'`
+	cp /mnt/env/$MINER/.env /root/
 	umount /mnt
 }
 {% endblock %}
