@@ -69,8 +69,9 @@ function zabbix() {
 	apt install gcc libpcre3-dev make -y
 
 	# build
-	$datadir/zabbix-3.4.1/configure --prefix=$datadir --enable-agent
-	make -C $datadir/zabbix-3.4.1/ && make -C $datadir/zabbix-3.4.1/ install
+	cd $datadir/zabbix-3.4.1
+	./configure --prefix=$datadir --enable-agent
+	make && make install
 
 	cp -f /tmp/zabbix_agentd/zabbix_agentd.conf $datadir/etc/zabbix_agentd.conf
 	cp /tmp/zabbix_agentd/zabbix-agentd.service /lib/systemd/system/
