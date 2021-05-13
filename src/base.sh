@@ -31,6 +31,55 @@ function env() {
 	apt install ntp -y
 }
 
+function zabbix() {
+	local datadir=/usr/local/zabbix
+	local user=zabbix
+
+	if [ -d "$datadir" ];then
+		echo "ZABBIX agentd is already installed" >&2
+		exit 1
+	fi
+
+	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
+	cp -r /mnt/zabbix_agentd /tmp/
+	umount /mnt
+
+	# Determine whether the user exists or not
+	if ! id $user >& /dev/null;then
+		useradd -M -s /bin/false zabbix
+	fi
+
+	# create datadir
+	if [ ! -d "$datadir" ];then
+		mkdir $datadir
+		cp -r /tmp/zabbix_agentd/scripts $datadir/
+		chown $user:$user $datadir -R
+		chmod +x $datadir/scripts/*.sh
+	fi
+
+	# create basedir
+	#if [ ! -d "$basedir" ];then
+		#mkdir $basedir
+	#fi
+
+	# extract
+	tar zxvf /tmp/zabbix_agentd/zabbix-3.4.1.tar.gz -C $datadir
+
+	# install dependence
+	apt install gcc libpcre3-dev make -y
+
+	# build
+	$datadir/zabbix-3.4.1/configure --prefix=$datadir --enable-agent
+	make && make install
+
+	cp -f /tmp/zabbix_agentd/zabbix_agentd.conf $datadir/etc/zabbix_agentd.conf
+	cp /tmp/zabbix_agentd/zabbix-agentd.service /lib/systemd/system/
+	
+	rm -r /tmp/zabbix_agentd
+
+	systemctl start zabbix-agentd
+	systemctl enable zabbix-agentd
+}
 
 # setup disk
 function disk() {
@@ -193,6 +242,8 @@ case $1 in
 		init;;
 	disk)
 		disk $2;;
+	zabbix)
+		zabbix;;
 	deploy)
 		deploy;;
 	env)

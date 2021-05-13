@@ -43,7 +43,7 @@ function init(){
 	mount -t nfs 10.2.0.102:/nfs /mnt -o nolock
 	MINER=`cat /mnt/mount | grep $IP | awk '{print $2}'`
 	cp /mnt/env/$MINER/.env /root/
-	umount /mnt										
+	umount /mnt
 }
 
 {% endblock %}
